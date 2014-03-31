@@ -1,3 +1,10 @@
 *.class
 *.pyc
 *.pyo
+.hgignore
+.project
+.pydevproject
+db.sqlite3
+
+Djojo/local_settings.py
+*/migrations/

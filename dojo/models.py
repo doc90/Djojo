@@ -2,18 +2,17 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
-# from tinymce.models import HTMLField
+from tinymce.models import HTMLField
 
 class Ninja(models.Model):
     name = models.CharField('Nome', max_length=200)
     surname = models.CharField('Cognome', max_length=200)
     age = models.IntegerField('Eta')
     parentspermission = models.BooleanField('Manleva?',default=False)
-    # notes = HTMLField('Note')
     email = models.EmailField('Email', blank=True)
     cellphone = models.IntegerField('Cellulare', null=True, blank=True)
     parentscellphone = models.IntegerField('Cell Genitori', null=True, blank=True)
-    notes = models.TextField('Note', blank=True)   
+    notes = HTMLField('Note', blank=True)   
     slug = models.CharField(max_length=200)
     
     def __unicode__(self):
@@ -32,7 +31,7 @@ class Event(models.Model):
     partecipants = models.ManyToManyField(Ninja, blank=True)
     partecipantsnumber = models.IntegerField()
     location = models.CharField('Luogo', max_length=200, blank=True)
-    notes = models.TextField('Note', blank=True)
+    notes = HTMLField('Note', blank=True)
     slug = models.CharField(max_length=200)
     
     def __unicode__(self):

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Blog | il_doc{% endblock %}
+
+{% block blogactive %}class = "active"{% endblock %}
+
+{% block content %} 
+<h1>Blog</h1>
+Aprirò un blog tutto mio! Con blackjack e squillo di lusso! 
+{% if latest_post_list %}
+	<table width="95%">
+		{% for post in latest_post_list %}
+			<tr>
+				<td align="left"><h3><a href="{% url 'blog:detail' post.slug %}">{{ post.title }}</a></h3></td>
+				<td align="right">{{ post.pub_date|date:"j M Y H:i" }}</td>				
+			</tr>
+			<tr>
+				<td colspan="2">{{ post.excerpt|striptags|linebreaksbr }}</td>
+			</tr>
+			
+		{% endfor %}
+	</table>
+	<div class="pagination">
+    <span class="step-links">
+        {% if latest_post_list.has_previous %}
+            <a href="?page={{ latest_post_list.previous_page_number }}"><</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ latest_post_list.number }} di {{ latest_post_list.paginator.num_pages }}
+        </span>
+
+        {% if latest_post_list.has_next %}
+            <a href="?page={{ latest_post_list.next_page_number }}">></a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+	<p>Nessun post disponibile</p>
+{% endif %}
+{% endblock %}

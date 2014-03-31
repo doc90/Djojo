@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.staticfiles',
     #'django.contrib.flatpages',
     'tinymce',
     'south',
@@ -88,7 +89,7 @@ SITE_ID = 1
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = '/var/www/dojo.coderdojogenova.it/Djojo/static/'
 
 
 try:

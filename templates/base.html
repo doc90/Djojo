@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% load staticfiles %}
+		<link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:400,700&#038;subset=latin,latin-ext" type='text/css' media='all' />
+		<script src="{% static 'js/jquery-latest.js' %}"></script>
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+	<body>
+		<div class="container" width="940px" align="center">
+			<header>
+				<div class="navbar" width="940px">
+				  <div class="navbar-inner">
+					<span class="brand">Dojo</span>
+					<ul class="nav">
+					  <li {% block rootactive %} {% endblock %}><a href="/">~/</a></li>
+					  <li {% block blogactive %} {% endblock %}><a href="{% url 'blog:index' %}">Blog</a></li>
+					  <li {% block projectsactive %} {% endblock %}><a href="{% url 'projects:index' %}">Projects</a></li>
+					</ul>
+				  </div>
+				</div>
+			</header>
+			{% block content %}
+			{% endblock %}
+			<footer>
+				<div align="right">2013-2014</div>
+			</footer>
+		</div>
+		<!-- Piwik -->
+		<script type="text/javascript">
+		  var _paq = _paq || [];
+		  _paq.push(['trackPageView']);
+		  _paq.push(['enableLinkTracking']);
+		  (function() {
+		    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://stats.ildoc.it/";
+		    _paq.push(['setTrackerUrl', u+'piwik.php']);
+		    _paq.push(['setSiteId', 1]);
+		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+		    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+		  })();
+		
+		</script>
+		<noscript><p><img src="http://stats.ildoc.it/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+		<!-- End Piwik Code -->
+	</body>
+</html>

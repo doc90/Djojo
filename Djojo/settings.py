@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.sites',
     #'django.contrib.flatpages',
     'tinymce',
     'south',
@@ -89,7 +88,7 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 STATIC_URL = '/static/'
 STATIC_ROOT = [os.path.join(BASE_DIR, 'Djojo/static')]
 
-MEDIA_URL = '/Djojo/media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = [os.path.join(BASE_DIR, 'Djojo/media')]
 
 

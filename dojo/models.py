@@ -1,10 +1,10 @@
 import datetime
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
 from dateutil.relativedelta import relativedelta
 from tinymce.models import HTMLField
+from django.forms.forms import BoundField
 
 class Level(models.Model):
     
@@ -16,8 +16,8 @@ class Level(models.Model):
         return self.title
     
     def thumbnail(self):
-        return u'<img src="%s" />' % (settings.MEDIA_URL + str(self.image))
-    thumbnail.short_description = 'Thumbnail'
+        return u'<img src="%s" />' % (self.image.url)
+    thumbnail.short_description = 'Immagine'
     thumbnail.allow_tags = True
 
 class Ninja(models.Model):

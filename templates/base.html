@@ -2,48 +2,76 @@
 <html>
 	<head>
 		{% load staticfiles %}
-		<link rel="shortcut icon" href="{% static 'favicon.ico' %}" />
-		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-		<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+		{% load bootstrap3 %}
+
+		{% bootstrap_css %}
+		{% bootstrap_javascript %}
+		<link rel="shortcut icon" href="{% static 'misc/favicon.ico' %}" />
+		<link rel="stylesheet" type="text/css" href="{% static 'misc/css/style.css' %}" />
+
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:400,700&#038;subset=latin,latin-ext" type='text/css' media='all' />
-		<script src="{% static 'js/jquery-latest.js' %}"></script>
+
 		<title>{% block title %}{% endblock %}</title>
 	</head>
 	<body>
-		<div class="container" width="940px" align="center">
-			<header>
-				<div class="navbar" width="940px">
-				  <div class="navbar-inner">
-					<span class="brand">Dojo</span>
-					<ul class="nav">
-					  <li {% block rootactive %} {% endblock %}><a href="/">~/</a></li>
-					  <li {% block blogactive %} {% endblock %}><a href="{% url 'blog:index' %}">Blog</a></li>
-					  <li {% block projectsactive %} {% endblock %}><a href="{% url 'projects:index' %}">Projects</a></li>
-					</ul>
-				  </div>
-				</div>
-			</header>
+		<div class="wrapper">
+			<div class="container">
+				<nav class="navbar navbar-default" role="navigation">
+					<div class="container">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+								<span class="sr-only">Toggle navigation</span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<span class="navbar-brand">Dojo</span>
+						</div>
+						<div class="navbar-collapse collapse">
+							<ul class="nav navbar-nav">
+								<li {% block homeactive %}{% endblock %}>
+									<a href="{% url 'engine.views.home' %}"><span class="glyphicon glyphicon-home"></span> Home</a>
+								</li>
+								{% if perms.dojo.view_ninja %}
+								<li {% block ninjaactive %}{% endblock %}>
+									<a href="{% url 'dojo.views.ninjalist' %}">Ninja</a>
+								</li>
+								{% endif %}
+								<li>
+									<a href="#contact">Contact</a>
+								</li>
+							</ul>
+							{% if user.is_authenticated %}
+							<ul class="nav navbar-nav navbar-right">
+								<li id="nav-username">
+									<a href="#"> <span class="glyphicon glyphicon-user"></span> {{ user.get_username }}</a>
+								</li>
+								{% if user.is_staff %}
+								<li>
+									<a href="{% url 'admin:index' %}"><span class="glyphicon glyphicon-cog"></span> Admin</a>
+								</li>
+								{% endif %}
+								<li>
+									<a href="{% url 'django.contrib.auth.views.logout' %}"><span class="glyphicon glyphicon-off"></span> Logout &nbsp</a>
+								</li>
+							</ul>
+							{% endif %}
+							
+						</div><!--/.navbar-collapse -->
+					</div>
+				</nav>
+			</div>
 			{% block content %}
 			{% endblock %}
-			<footer>
-				<div align="right">2013-2014</div>
-			</footer>
+			<div id="page-footer">
+				<div class="container">
+					<footer>
+						<div class="pull-right">
+							<small>2014 - <a href="https://github.com/doc90/Djojo">github</a> - {{ VERSION }}</small>
+						</div>
+					</footer>
+				</div>
+			</div>
 		</div>
-		<!-- Piwik -->
-		<script type="text/javascript">
-		  var _paq = _paq || [];
-		  _paq.push(['trackPageView']);
-		  _paq.push(['enableLinkTracking']);
-		  (function() {
-		    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://stats.ildoc.it/";
-		    _paq.push(['setTrackerUrl', u+'piwik.php']);
-		    _paq.push(['setSiteId', 1]);
-		    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
-		    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-		  })();
-		
-		</script>
-		<noscript><p><img src="http://stats.ildoc.it/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
-		<!-- End Piwik Code -->
 	</body>
 </html>

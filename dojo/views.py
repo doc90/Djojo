@@ -1,12 +1,17 @@
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.template import RequestContext
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.views import login
 
-from dojo.models import Ninja,Event
+from dojo.models import Ninja, Event
 
-def eventindex(request):
-    event_list = Event.objects.order_by('-pub_date')
-    paginator = Paginator(post_list, 10)
+@permission_required('dojo.view_ninja', raise_exception=True)
+def ninjalist(request):
+    
+    ninja_list = Ninja.objects.order_by('surname')
+    paginator = Paginator(ninja_list, 10)
     
     page = request.GET.get('page')
     try:
@@ -16,6 +21,6 @@ def eventindex(request):
         latest_event_list = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        latest_event_list = paginator.page(paginator.num_pages)
+        ninja_list = paginator.page(paginator.num_pages)
 
-    return render_to_response('blog/index.html', {"latest_event_list": latest_event_list})
+    return render_to_response('ninja/ninjalist.html', {"ninja_list": ninja_list}, context_instance=RequestContext(request))

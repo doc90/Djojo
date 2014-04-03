@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}Ninja{% endblock %}
+
+{% block ninjaactive %}class="active"{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Ninjalist <a style="vertical-align: middle" class="btn btn-sm btn-primary" href="#"><span class="glyphicon glyphicon-plus" ></span></a></h1>
+	
+	{% if ninja_list %}
+	
+	<table class="table table-condesed table-striped">
+		<tr>
+			<th>Nome</th>
+			<th>Cognome</th>
+			<th>Età</th>
+			<th>Livello</th>
+			<th>Manleva</th>
+		</tr>
+		{% for ninja in ninja_list %}
+			<tr>
+				<td>{{ ninja.name }}</td>
+				<td>{{ ninja.surname }}</td>
+				<td>{{ ninja.getAge }}</td>
+				<td>{{ ninja.level }}</td>
+				<td>{{ ninja.parentpermission }}</td>
+				
+			</tr>
+		{% endfor %}
+	</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if ninja_list.has_previous %}
+            <a href="?page={{ ninja_list.previous_page_number }}"><</a>
+        {% endif %}
+
+        
+
+        {% if ninja_list.has_next %}
+        	<span class="current">
+	            Pagina {{ ninja_list.paginator.number }} di {{ ninja_list.paginator.num_pages }}
+	        </span>
+            <a href="?page={{ ninja_list.next_page_number }}">></a>
+        {% endif %}
+    </span>
+</div>
+{% else %}
+	<p>Nessun ninja disponibile</p>
+{% endif %}
+</div>
+<!-- /.container -->
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}Dojo{% endblock %}
+
+{% block homeactive %}class="active"{% endblock %}
+
+{% block content %}
+<div class="container">
+	<div class="container">
+		<h1>Dojo</h1>
+		<p class="lead">
+			work in progress...
+		</p>
+		{% if not user.is_authenticated %}
+		<p>
+			<a class="btn btn-lg btn-primary"
+			href="{% url 'registration_register' %}">Registrati</a>
+			&nbsp;
+			<a class="btn btn-lg btn-success"
+			href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+		</p>
+		{% endif %}
+	</div>
+
+	<!-- /.jumbotron -->
+</div>
+<!-- /.container -->
+{% endblock content %}

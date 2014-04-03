@@ -20,6 +20,7 @@ SECRET_KEY = 'lallallero'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+VERSION = 'v0.2a'
 
 TEMPLATE_DEBUG = True
 
@@ -35,10 +36,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.flatpages',
+    # 'django.contrib.flatpages',
     'tinymce',
-    'south',
+    # 'south',
     'dojo',
+    'engine',
+    'registration',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,7 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    # 'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 ROOT_URLCONF = 'Djojo.urls'
@@ -65,6 +69,18 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'Djojo.context_processors.global_settings',
+)
+
+# django-registration settings
+REGISTRATION_OPEN = True
+LOGIN_URL = 'django.contrib.auth.views.login'
+LOGIN_REDIRECT_URL = '/'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_ACTIVATION_DAYS = 3
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -86,11 +102,10 @@ SITE_ID = 1
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 STATIC_URL = '/static/'
-STATIC_ROOT = [os.path.join(BASE_DIR, 'Djojo/static')]
+# STATIC_ROOT = [os.path.join(BASE_DIR, 'Djojo/static')]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = [os.path.join(BASE_DIR, 'Djojo/media')]
-
 
 try:
   from local_settings import *

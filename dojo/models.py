@@ -72,4 +72,22 @@ class Event(models.Model):
             self.partecipantsnumber = 0
         super(Event, self).save(*args, **kwargs)
         
+class Mentor(models.Model):
+    name = models.CharField('Nome', max_length=50)
+    surname = models.CharField('Cognome', max_length=50)
+    birthday = models.DateField('Data di nascita', blank=True, null=True)
+    cellphone = models.IntegerField('Cellulare', null=True, blank=True)
+    email = models.EmailField('Email', blank=True)
+    notes = HTMLField('Note', blank=True)   
+    slug = models.CharField(max_length=200)
+    
+    def __unicode__(self):
+        return self.name + ' ' + self.surname
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = '%s%s' % (
+                self.name, self.surname
+            )
+        super(Mentor, self).save(*args, **kwargs)
 

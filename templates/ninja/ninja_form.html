@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}Ninja{% endblock %}
+
+{% block ninjaactive %}class="active"{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Aggiungi Ninja</h1>
+	<form method="post" action="">
+		{% csrf_token %}
+	{{form.as_p}}
+	<button type="submit">add</button></form>
+</div>
+<!-- /.container -->
+
+{% endblock %}

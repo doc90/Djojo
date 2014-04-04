@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # 'django.contrib.flatpages',
     'tinymce',
-    # 'south',
+    'south',
     'dojo',
     'engine',
     'registration',
@@ -73,6 +73,7 @@ DATABASES = {
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'Djojo.context_processors.global_settings',
+    'django.core.context_processors.csrf',
 )
 
 # django-registration settings

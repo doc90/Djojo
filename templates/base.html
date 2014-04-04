@@ -6,10 +6,14 @@
 
 		{% bootstrap_css %}
 		{% bootstrap_javascript %}
+		
+		<script src="{% static 'jquery/jquery-2.1.0.min.js' %}"></script>
 		<link rel="shortcut icon" href="{% static 'misc/favicon.ico' %}" />
 		<link rel="stylesheet" type="text/css" href="{% static 'misc/css/style.css' %}" />
 
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:400,700&#038;subset=latin,latin-ext" type='text/css' media='all' />
+
+		{% block additional_head %}{% endblock %}
 
 		<title>{% block title %}{% endblock %}</title>
 	</head>
@@ -34,7 +38,12 @@
 								</li>
 								{% if perms.dojo.view_ninja %}
 								<li {% block ninjaactive %}{% endblock %}>
-									<a href="{% url 'dojo.views.ninjalist' %}">Ninja</a>
+									<a href="{% url 'dojo.views.ninja_list' %}"><span class="glyphicon glyphicon-list"></span> Ninja</a>
+								</li>
+								{% endif %}
+								{% if perms.dojo.view_mentor %}
+								<li {% block mentoractive %}{% endblock %}>
+									<a href="{% url 'dojo.views.mentor_list' %}"><span class="glyphicon glyphicon-tower"></span> Mentor</a>
 								</li>
 								{% endif %}
 								<li>
@@ -44,7 +53,7 @@
 							{% if user.is_authenticated %}
 							<ul class="nav navbar-nav navbar-right">
 								<li id="nav-username">
-									<a href="#"> <span class="glyphicon glyphicon-user"></span> {{ user.get_username }}</a>
+									<a href="{% url 'profile' slug=user.username %}"> <span class="glyphicon glyphicon-user"></span> {{ user.get_username }}</a>
 								</li>
 								{% if user.is_staff %}
 								<li>

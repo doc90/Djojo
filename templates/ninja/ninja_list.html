@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block title %}Ninja{% endblock %}
+
+{% block ninjaactive %}class="active"{% endblock %}
+
+{% block additional_head %}
+<script src="{% static 'jquery/jquery.tablesorter.min.js' %}"></script>
+<script>
+	$(document).ready(function() {
+		$("#ninjalist").tablesorter({
+			sortList : [[1, 0]],
+			headers : {
+				3 : {
+					sorter : false
+				},
+				4 : {
+					sorter : false
+				}
+			}
+		});
+	}); 
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Elenco Ninja <a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'dojo.views.ninja_add' %}"><span class="glyphicon glyphicon-plus" ></span></a></h1>
+
+	{% if ninja_list %}
+
+	<table class="table table-condesed table-striped tablesorter" id="ninjalist">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Cognome</th>
+				<th>Età</th>
+				<th>Livello</th>
+				<th>Manleva</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for ninja in ninja_list %}
+			<tr>
+				<td>{{ ninja.name }}</td>
+				<td>{{ ninja.surname }}</td>
+				<td>{% if ninja.getAge > 0 %}{{ ninja.getAge }}{% endif %}</td>
+				<td>{% if ninja.level != None %}{{ ninja.level }}{% endif %}</td>
+				<td>{% if ninja.parentpermission %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="pagination">
+		<span class="step-links">
+        {% if ninja_list.has_previous %}
+            <a href="?page={{ ninja_list.previous_page_number }}"><</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ ninja_list.number }} di {{ ninja_list.paginator.num_pages }}
+        </span>
+
+        {% if ninja_list.has_next %}
+            <a href="?page={{ ninja_list.next_page_number }}">></a>
+        {% endif %}
+    </span>
+	</div>
+	{% else %}
+	<p>
+		Nessun ninja disponibile
+	</p>
+	{% endif %}
+</div>
+<!-- /.container -->
+
+{% endblock %}

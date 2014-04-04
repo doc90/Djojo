@@ -1,5 +1,5 @@
 from django.contrib import admin
-from dojo.models import Ninja, Event, Level
+from dojo.models import Ninja, Event, Level, Mentor
 
 class NinjaAdmin(admin.ModelAdmin):
     fieldsets = [
@@ -33,3 +33,12 @@ class LevelAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Level, LevelAdmin)
+
+
+class MentorAdmin(admin.ModelAdmin):
+    fieldsets = [
+        ('Anagrafica', {'fields':['name', 'surname', 'email', 'cellphone']}),
+        ('Note', {'fields':['notes']}),
+    ]
+    
+admin.site.register(Mentor, MentorAdmin)

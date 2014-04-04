@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block title %}Mentor{% endblock %}
+
+{% block mentoractive %}class="active"{% endblock %}
+
+{% block additional_head %}
+<script src="{% static 'jquery/jquery.tablesorter.min.js' %}"></script>
+<script>
+	$(document).ready(function() {
+		$("#ninjalist").tablesorter({
+			sortList : [[1, 0]],
+			headers : {
+				2 : {
+					sorter : false
+				},
+				3 : {
+					sorter : false
+				}
+			}
+		});
+	}); 
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Elenco Mentor <a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'dojo.views.mentor_add' %}"><span class="glyphicon glyphicon-plus" ></span></a></h1>
+
+	{% if mentor_list %}
+
+	<table class="table table-condesed table-striped tablesorter" id="ninjalist">
+		<thead>
+			<tr>
+				<th>Nome</th>
+				<th>Cognome</th>
+				<th>Email</th>
+				<th>Cellulare</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for mentor in mentor_list %}
+			<tr>
+				<td>{{ mentor.name }}</td>
+				<td>{{ mentor.surname }}</td>
+				<td>{{ mentor.email }}</td>
+				<td>{% if ninja.level != None %}{{ mentor.cellphone }}{% endif %}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="pagination">
+		<span class="step-links">
+        {% if mentor_list.has_previous %}
+            <a href="?page={{ mentor_list.previous_page_number }}"><</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ mentor_list.number }} di {{ mentor_list.paginator.num_pages }}
+        </span>
+
+        {% if ninja_list.has_next %}
+            <a href="?page={{ mentor_list.next_page_number }}">></a>
+        {% endif %}
+    </span>
+	</div>
+	{% else %}
+	<p>
+		Nessun mentor disponibile
+	</p>
+	{% endif %}
+</div>
+<!-- /.container -->
+
+{% endblock %}

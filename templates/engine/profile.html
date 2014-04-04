@@ -4,9 +4,12 @@
 {% block title %}Profile{% endblock %}
 {% block content %}
 <div class="container">
-  <h1>Profile</h1>
-  <h2>{{ user.get_username }}</h2>
-  <p>{{ user.get_full_name }}</p>
-  <p><a href="{% url 'django.contrib.auth.views.password_change' %}">Change password</a></p>
+  {% if user.is_authenticated %}
+  <h1>Profilo di {{ user.username}}</h1>
+    <a href="#">Logout</a> |
+  +  <a href="{% url 'profile' slug=user.username %}"><b>{{ user.username }}</b></a> 
+  {% else %}
+  +  <a href="#">Register</a> |
+  {% endif %}
 </div>
 {% endblock %}

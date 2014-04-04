@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from registration.forms import RegistrationFormUniqueEmail
 from registration.backends.default.views import RegistrationView
-
+from engine.views import UserProfileDetailView
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -18,7 +18,8 @@ urlpatterns = patterns('',
     url(r'^$','engine.views.home', name='home'),
     #url(r'^users/$', 'engine.views.profile', name='profile'),
     url(r'^dojo/', include('dojo.urls'), name='dojo'),
-    url(r'^profile/$', 'engine.views.profile', name='profile'),
+    
+    url(r'^users/(?P<slug>\w+)/$', UserProfileDetailView.as_view(), name="profile"),
     
     #fix per django 1.6
     #http://stackoverflow.com/questions/19985103/
@@ -36,3 +37,4 @@ urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler403 = 'engine.views.custom403'
+

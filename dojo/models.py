@@ -32,7 +32,7 @@ class Ninja(models.Model):
     parentname = models.CharField('Nome Genitore', max_length=50, blank=True)
     parentsurname = models.CharField('Cognome Genitore', max_length=50, blank=True)
     parentemail = models.EmailField('Email', blank=True)
-    parentscellphone = models.IntegerField('Cell Genitore', null=True, blank=True)
+    parentcellphone = models.IntegerField('Cell Genitore', null=True, blank=True)
     notes = HTMLField('Note', blank=True)   
     slug = models.CharField(max_length=200)
     

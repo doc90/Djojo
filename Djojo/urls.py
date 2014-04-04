@@ -16,7 +16,6 @@ urlpatterns = patterns('',
     url(r'^users/', include('registration.backends.simple.urls')),
     
     url(r'^$','engine.views.home', name='home'),
-    #url(r'^users/$', 'engine.views.profile', name='profile'),
     url(r'^dojo/', include('dojo.urls'), name='dojo'),
     
     url(r'^users/(?P<slug>\w+)/$', UserProfileDetailView.as_view(), name="profile"),
@@ -33,7 +32,7 @@ urlpatterns = patterns('',
     url(r'^users/register/$', RegistrationView.as_view(form_class=RegistrationFormUniqueEmail), name='registration_register'),
 )
 
-urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler403 = 'engine.views.custom403'

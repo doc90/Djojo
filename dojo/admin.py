@@ -4,7 +4,7 @@ from dojo.models import Ninja, Event, Level, Mentor
 class NinjaAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Anagrafica', {'fields':['name', 'surname', 'birthday', 'parentpermission', 'email', 'cellphone', 'photo', 'level']}),
-        ('Contatti genitori', {'fields':['parentname', 'parentsurname', 'parentemail', 'parentscellphone'], 'classes':['collapse']}),
+        ('Contatti genitori', {'fields':['parentname', 'parentsurname', 'parentemail', 'parentcellphone'], 'classes':['collapse']}),
         ('Note', {'fields':['notes']}),
     ]
     

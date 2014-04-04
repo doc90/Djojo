@@ -7,10 +7,10 @@
 {% block content %}
 <div class="container">
 
-	<h1>Aggiungi Ninja</h1>
-	<form method="post" action=""	>
+	<h1>Modifica Ninja</h1>
+	<form method="post" action="">
 		{% csrf_token %}
-		<div class="row">
+	<div class="row">
 			<div class="form-group">
 				<label class="col-md-2 control-label">Nome *</label>
 				<div class="col-md-2">{{ form.name }}</div>
@@ -69,9 +69,8 @@
 		</div>
 		<hr>
 		<button type="submit" class="btn btn-primary">
-			Aggiungi
-		</button>
-	</form>
+			Modifica</button>
+		</form>
 </div>
 <!-- /.container -->
 

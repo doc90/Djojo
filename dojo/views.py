@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, render_to_response
-from django.views import generic
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
+from django.views.generic.edit import DeleteView
+from django.core.urlresolvers import reverse_lazy
 from .forms import NinjaForm, MentorForm
 from django.http import HttpResponseRedirect
 
-from dojo.models import Ninja, Event, Mentor
+from .models import Ninja, Event, Mentor
 
 @permission_required('dojo.view_ninja', raise_exception=True)
 def ninja_list(request):
@@ -43,6 +44,29 @@ def ninja_add(request):
     else:
         form = NinjaForm()
     return render_to_response("ninja/ninja_form.html", {'form' : form }, context_instance=RequestContext(request))
+
+
+@permission_required('dojo.can_edit_ninja', raise_exception=True)
+def ninja_edit(request, pk):
+    instance = get_object_or_404(Ninja, pk=pk)
+    if request.method == "POST":
+        form = NinjaForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/dojo/ninja/")
+    else:
+        form = NinjaForm(instance=instance)
+    return render_to_response("ninja/ninja_edit.html", {'form' : form }, context_instance=RequestContext(request))    
+        
+        
+class Ninja_delete(DeleteView):
+    model = Ninja
+    success_url = 'dojo/ninja/'
+    template_name = 'ninja/ninja_delete.html'
+    
+    def dispatch(self, *args, **kwargs):
+        return super(Ninja_delete, self).dispatch(*args, **kwargs)
+
 
 @permission_required('dojo.view_mentor', raise_exception=True)
 def mentor_list(request):
@@ -81,3 +105,23 @@ def mentor_add(request):
     return render_to_response("mentor/mentor_form.html", {'form' : form }, context_instance=RequestContext(request))
 
 
+@permission_required('dojo.can_edit_mentor', raise_exception=True)
+def mentor_edit(request, pk):
+    instance = get_object_or_404(Mentor, pk=pk)
+    if request.method == "POST":
+        form = MentorForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/dojo/mentor/")
+    else:
+        form = MentorForm(instance=instance)
+    return render_to_response("mentor/mentor_edit.html", {'form' : form }, context_instance=RequestContext(request))    
+
+
+class Mentor_delete(DeleteView):
+    model = Mentor
+    success_url = '/dojo/mentor/'
+    template_name = 'mentor/mentor_delete.html'
+    
+    def dispatch(self, *args, **kwargs):
+        return super(Mentor_delete, self).dispatch(*args, **kwargs)

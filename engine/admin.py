@@ -13,4 +13,4 @@ class UserProfileAdmin(UserAdmin):
     inlines = (UserProfileInline,)
     
 admin.site.unregister(get_user_model())
-admin.site.register(get_user_model(), UserProfileAdmin)
+admin.site.register(get_user_model())

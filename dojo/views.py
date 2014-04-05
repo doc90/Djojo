@@ -61,7 +61,7 @@ def ninja_edit(request, pk):
         
 class Ninja_delete(DeleteView):
     model = Ninja
-    success_url = 'dojo/ninja/'
+    success_url = '/dojo/ninja/'
     template_name = 'ninja/ninja_delete.html'
     
     def dispatch(self, *args, **kwargs):

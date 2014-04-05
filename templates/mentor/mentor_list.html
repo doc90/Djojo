@@ -30,7 +30,7 @@
 {% block content %}
 <div class="container">
 
-	<h1>Elenco Mentor <a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'dojo.views.mentor_add' %}"><span class="glyphicon glyphicon-plus" ></span></a></h1>
+	<h1>Elenco Mentor {% if perms.dojo.add_mentor %}<a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'dojo.views.mentor_add' %}"><span class="glyphicon glyphicon-plus" ></span></a>{% endif %}</h1>
 
 	{% if mentor_list %}
 
@@ -52,8 +52,8 @@
 				<td>{{ mentor.email }}</td>
 				<td>{{ mentor.cellphone }}</td>
 				<td>
-					{% if perms.dojo.can_edit_mentor %}<a href="{% url 'mentor_edit' pk=mentor.pk %}"><img src="{% static 'misc/edit.png'%}" /></a>{% endif %}
-					{% if perms.dojo.can_delete_mentor %}<a href="{% url 'mentor_delete' pk=mentor.pk %}"><img src="{% static 'misc/delete.png'%}" /></a>{% endif %}
+					{% if perms.dojo.change_mentor %}<a href="{% url 'mentor_edit' pk=mentor.pk %}"><img src="{% static 'misc/edit.png'%}" /></a>{% endif %}
+					{% if perms.dojo.delete_mentor %}<a href="{% url 'mentor_delete' pk=mentor.pk %}"><img src="{% static 'misc/delete.png'%}" /></a>{% endif %}
 				</td>
 			</tr>
 			{% endfor %}

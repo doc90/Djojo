@@ -28,7 +28,7 @@ def ninja_list(request):
     return render_to_response('ninja/ninja_list.html', {"ninja_list": ninja_list}, context_instance=RequestContext(request))
 
 
-@permission_required('dojo.can_add_ninja', raise_exception=True)
+@permission_required('dojo.add_ninja', raise_exception=True)
 def ninja_add(request):
     if request.method == 'POST':
         form = NinjaForm(data=request.POST)
@@ -46,7 +46,7 @@ def ninja_add(request):
     return render_to_response("ninja/ninja_form.html", {'form' : form }, context_instance=RequestContext(request))
 
 
-@permission_required('dojo.can_edit_ninja', raise_exception=True)
+@permission_required('dojo.change_ninja', raise_exception=True)
 def ninja_edit(request, pk):
     instance = get_object_or_404(Ninja, pk=pk)
     if request.method == "POST":
@@ -87,7 +87,7 @@ def mentor_list(request):
     return render_to_response('mentor/mentor_list.html', {"mentor_list": mentor_list}, context_instance=RequestContext(request))
 
 
-@permission_required('dojo.can_add_mentor', raise_exception=True)
+@permission_required('dojo.add_mentor', raise_exception=True)
 def mentor_add(request):
     if request.method == 'POST':
         form = MentorForm(data=request.POST)
@@ -105,7 +105,7 @@ def mentor_add(request):
     return render_to_response("mentor/mentor_form.html", {'form' : form }, context_instance=RequestContext(request))
 
 
-@permission_required('dojo.can_edit_mentor', raise_exception=True)
+@permission_required('dojo.change_mentor', raise_exception=True)
 def mentor_edit(request, pk):
     instance = get_object_or_404(Mentor, pk=pk)
     if request.method == "POST":

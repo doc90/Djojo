@@ -20,7 +20,7 @@ SECRET_KEY = 'lallallero'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-VERSION = 'v0.2a'
+VERSION = 'v0.2.1a'
 
 TEMPLATE_DEBUG = True
 

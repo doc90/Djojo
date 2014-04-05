@@ -10,11 +10,19 @@
 			changeMonth : true,
 			changeYear : true,
 			yearRange: "1984:2014",
-			dateFormat: "dd/mm/yyyy"
+			dateFormat: "dd/mm/yy"
 		});
 	}); 
 </script>
-
+<style>
+div.ui-datepicker {
+    font-size: 10px;
+    color: #222222;
+}
+.ui-widget-header {
+    color: #222222;
+}
+</style>
 {% endblock %}
 
 {% block title %}Ninja{% endblock %}

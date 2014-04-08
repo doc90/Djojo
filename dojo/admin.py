@@ -28,11 +28,7 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 
 
-class LevelAdmin(admin.ModelAdmin):
-    list_display = ('title', 'thumbnail')
-
-
-admin.site.register(Level, LevelAdmin)
+admin.site.register(Level)
 
 
 class MentorAdmin(admin.ModelAdmin):

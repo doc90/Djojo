@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Mentor{% endblock %}
+
+{% block mentoractive %}class="active"{% endblock %}
+
+{% block content %}
+
+{% include "dojo/mentor/mentor_form.html" with mentorformtitle="Aggiungi Mentor" mentorformbutton="Aggiungi" %}
+
+{% endblock %}

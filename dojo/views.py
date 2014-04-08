@@ -25,7 +25,7 @@ def ninja_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         ninja_list = paginator.page(paginator.num_pages)
 
-    return render_to_response('ninja/ninja_list.html', {"ninja_list": ninja_list}, context_instance=RequestContext(request))
+    return render_to_response('dojo/ninja/ninja_list.html', {"ninja_list": ninja_list}, context_instance=RequestContext(request))
 
 
 @permission_required('dojo.add_ninja', raise_exception=True)
@@ -43,7 +43,7 @@ def ninja_add(request):
             return HttpResponseRedirect("/dojo/ninja/")
     else:
         form = NinjaForm()
-    return render_to_response("ninja/ninja_form.html", {'form' : form }, context_instance=RequestContext(request))
+    return render_to_response("dojo/ninja/ninja_add.html", {'form' : form }, context_instance=RequestContext(request))
 
 
 @permission_required('dojo.change_ninja', raise_exception=True)
@@ -56,13 +56,13 @@ def ninja_edit(request, pk):
             return HttpResponseRedirect("/dojo/ninja/")
     else:
         form = NinjaForm(instance=instance)
-    return render_to_response("ninja/ninja_edit.html", {'form' : form }, context_instance=RequestContext(request))    
+    return render_to_response("dojo/ninja/ninja_edit.html", {'form' : form }, context_instance=RequestContext(request))
         
         
 class Ninja_delete(DeleteView):
     model = Ninja
     success_url = '/dojo/ninja/'
-    template_name = 'ninja/ninja_delete.html'
+    template_name = 'dojo/ninja/ninja_delete.html'
     
     def dispatch(self, *args, **kwargs):
         return super(Ninja_delete, self).dispatch(*args, **kwargs)
@@ -84,7 +84,7 @@ def mentor_list(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         mentor_list = paginator.page(paginator.num_pages)
 
-    return render_to_response('mentor/mentor_list.html', {"mentor_list": mentor_list}, context_instance=RequestContext(request))
+    return render_to_response('dojo/mentor/mentor_list.html', {"mentor_list": mentor_list}, context_instance=RequestContext(request))
 
 
 @permission_required('dojo.add_mentor', raise_exception=True)
@@ -102,7 +102,7 @@ def mentor_add(request):
             return HttpResponseRedirect("/dojo/mentor/")
     else:
         form = MentorForm()
-    return render_to_response("mentor/mentor_form.html", {'form' : form }, context_instance=RequestContext(request))
+    return render_to_response("dojo/mentor/mentor_add.html", {'form' : form }, context_instance=RequestContext(request))
 
 
 @permission_required('dojo.change_mentor', raise_exception=True)
@@ -115,13 +115,13 @@ def mentor_edit(request, pk):
             return HttpResponseRedirect("/dojo/mentor/")
     else:
         form = MentorForm(instance=instance)
-    return render_to_response("mentor/mentor_edit.html", {'form' : form }, context_instance=RequestContext(request))    
+    return render_to_response("dojo/mentor/mentor_edit.html", {'form' : form }, context_instance=RequestContext(request))
 
 
 class Mentor_delete(DeleteView):
     model = Mentor
     success_url = '/dojo/mentor/'
-    template_name = 'mentor/mentor_delete.html'
+    template_name = 'dojo/mentor/mentor_delete.html'
     
     def dispatch(self, *args, **kwargs):
         return super(Mentor_delete, self).dispatch(*args, **kwargs)

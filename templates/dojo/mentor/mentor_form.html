@@ -1,13 +1,8 @@
-{% extends "base.html" %}
 {% load bootstrap3 %}
-{% block title %}Mentor{% endblock %}
 
-{% block mentoractive %}class="active"{% endblock %}
-
-{% block content %}
 <div class="container">
 
-	<h1>Aggiungi Mentor</h1>
+	<h1>{{ mentorformtitle }}</h1>
 	<form method="post" action="">
 		{% csrf_token %}
 		<div class="row">
@@ -34,8 +29,6 @@
 			</div>
 		</div>
 		<hr>
-		<button type="submit" class="btn btn-primary">Aggiungi</button></form>
+		<button type="submit" class="btn btn-primary">{{ mentorformbutton }}</button></form>
 </div>
 <!-- /.container -->
-
-{% endblock %}

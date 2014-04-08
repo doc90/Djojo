@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Ninja{% endblock %}
+
+{% block ninjaactive %}class="active"{% endblock %}
+
+{% block content %}
+
+{% include "dojo/ninja/ninja_form.html" with ninjaformtitle="Aggiungi Ninja" ninjaformbutton="Aggiungi" %}
+
+{% endblock %}

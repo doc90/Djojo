@@ -1,7 +1,6 @@
-{% extends "base.html" %}
 {% load bootstrap3 %}
 {% load staticfiles %}
-{% block additional_head %}
+
 <script src="{% static 'jquery-ui/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
 <link rel="stylesheet" href="{% static 'jquery-ui/css/redmond/jquery-ui-1.10.4.custom.min.css' %}" />
 <script>
@@ -23,16 +22,10 @@ div.ui-datepicker {
     color: #222222;
 }
 </style>
-{% endblock %}
 
-{% block title %}Ninja{% endblock %}
-
-{% block ninjaactive %}class="active"{% endblock %}
-
-{% block content %}
 <div class="container">
 
-	<h1>Aggiungi Ninja</h1>
+	<h1>{{ ninjaformtitle }}</h1>
 	<form method="post" action=""	>
 		{% csrf_token %}
 		<div class="row">
@@ -120,10 +113,8 @@ div.ui-datepicker {
 		</div>
 		<hr>
 		<button type="submit" class="btn btn-primary">
-			Aggiungi
+			{{ ninjaformbutton }}
 		</button>
 	</form>
 </div>
 <!-- /.container -->
-
-{% endblock %}

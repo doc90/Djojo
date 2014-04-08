@@ -4,6 +4,7 @@
 .hgignore
 .project
 .pydevproject
+.idea
 db.sqlite3
 
 Djojo/local_settings.py

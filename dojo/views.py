@@ -3,8 +3,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
 from django.views.generic.edit import DeleteView
-from django.core.urlresolvers import reverse_lazy
-from .forms import NinjaForm, MentorForm
+from django.views import generic
+from .forms import NinjaForm, MentorForm, EventForm
 from django.http import HttpResponseRedirect
 
 from .models import Ninja, Event, Mentor
@@ -68,6 +68,11 @@ class Ninja_delete(DeleteView):
         return super(Ninja_delete, self).dispatch(*args, **kwargs)
 
 
+class Ninja_detail(generic.DetailView):
+    model = Ninja
+    template_name = 'dojo/ninja/ninja_detail.html'
+
+
 @permission_required('dojo.view_mentor', raise_exception=True)
 def mentor_list(request):
     
@@ -125,3 +130,66 @@ class Mentor_delete(DeleteView):
     
     def dispatch(self, *args, **kwargs):
         return super(Mentor_delete, self).dispatch(*args, **kwargs)
+
+
+@permission_required('dojo.view_event', raise_exception=True)
+def event_list(request):
+
+    event_list = Event.objects.order_by('-pub_date')
+    paginator = Paginator(event_list, 25)
+
+    page = request.GET.get('page')
+    try:
+        event_list = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        event_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        event_list = paginator.page(paginator.num_pages)
+
+    return render_to_response('dojo/event/event_list.html', {"event_list": event_list}, context_instance=RequestContext(request))
+
+
+@permission_required('dojo.add_event', raise_exception=True)
+def event_add(request):
+    if request.method == 'POST':
+        form = EventForm(data=request.POST)
+
+        if form.is_valid():
+
+            model_instance = form.save(commit=False)
+            model_instance.slug = '%s%s%s' % (
+                model_instance.pub_date.day, model_instance.pub_date.month, model_instance.pub_date.year
+            )
+            model_instance.save()
+            return HttpResponseRedirect("/dojo/event/")
+    else:
+        form = EventForm()
+    return render_to_response("dojo/event/event_add.html", {'form' : form }, context_instance=RequestContext(request))
+
+
+@permission_required('dojo.change_event', raise_exception=True)
+def event_edit(request, pk):
+    instance = get_object_or_404(Event, pk=pk)
+    if request.method == "POST":
+        form = EventForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/dojo/event/")
+    else:
+        form = EventForm(instance=instance)
+    return render_to_response("dojo/event/event_edit.html", {'form' : form }, context_instance=RequestContext(request))
+
+
+class Event_delete(DeleteView):
+    model = Event
+    success_url = '/dojo/event/'
+    template_name = 'dojo/event/event_delete.html'
+
+    def dispatch(self, *args, **kwargs):
+        return super(Event_delete, self).dispatch(*args, **kwargs)
+
+class Event_detail(generic.DetailView):
+    model = Event
+    template_name = 'dojo/event/event_detail.html'

@@ -20,7 +20,7 @@ SECRET_KEY = 'lallallero'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-VERSION = 'v0.2.1a'
+VERSION = 'v0.3a'
 
 TEMPLATE_DEBUG = True
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     #'south',
     'dojo',
     'engine',
+    'documents',
     'registration',
     'bootstrap3',
 )
@@ -107,6 +108,13 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = [os.path.join(BASE_DIR, 'Djojo/media')]
+
+STATICFILES_DIRS = (
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, 'Djojo/static'),
+)
 
 try:
   from local_settings import *

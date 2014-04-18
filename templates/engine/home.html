@@ -6,23 +6,32 @@
 
 {% block content %}
 <div class="container">
-	<div class="container">
-		<h1>Dojo</h1>
-		<p class="lead">
-			work in progress...
-		</p>
-		{% if not user.is_authenticated %}
-		<p>
-			<a class="btn btn-lg btn-primary"
-			href="{% url 'registration_register' %}">Registrati</a>
-			&nbsp;
-			<a class="btn btn-lg btn-success"
-			href="{% url 'django.contrib.auth.views.login' %}">Login</a>
-		</p>
-		{% endif %}
-	</div>
+    <h1>Dojo</h1>
 
-	<!-- /.jumbotron -->
+    <div class="row">
+        Work in progress...
+    </div>
+    {% if not user.is_authenticated %}
+    <div class="row">
+        <a class="btn btn-lg btn-primary"
+           href="{% url 'registration_register' %}">Registrati</a>
+        &nbsp;
+        <a class="btn btn-lg btn-success"
+           href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+    </div>
+    {% else %}
+    <div class="row">
+        {% if perms.dojo.add_ninja %}
+        <a class="btn btn-sm btn-success" href="{% url 'ninja_add' %}">Aggiungi un Ninja</a>&nbsp;
+        {% endif %}
+        {% if perms.dojo.add_mentor %}
+        <a class="btn btn-sm btn-warning" href="{% url 'mentor_add' %}">Aggiungi un Mentor</a>&nbsp;
+        {% endif %}
+        {% if perms.dojo.add_event %}
+        <a class="btn btn-sm btn-info" href="{% url 'event_add' %}">Aggiungi un Evento</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 <!-- /.container -->
 {% endblock content %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}document{% endblock %}
+
+{% block documentactive %}class="active"{% endblock %}
+
+{% block content %}
+
+{% include "documents/document_form.html" with documentformtitle="Aggiungi Documento" documentformbutton="Aggiungi" %}
+
+{% endblock %}

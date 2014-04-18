@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Eventi{% endblock %}
+
+{% block eventactive %}class="active"{% endblock %}
+
+{% block content %}
+
+{% include "dojo/event/event_form.html" with eventformtitle="Modifica Evento" eventformbutton="Modifica" %}
+
+{% endblock %}

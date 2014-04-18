@@ -15,60 +15,94 @@
 				3 : {
 					sorter : false
 				},
-				4 : {
+				5 : {
 					sorter : false
 				},
-				5 : {
+				6 : {
 					sorter : false
 				}
 			}
 		});
 	}); 
+
 </script>
 {% endblock %}
 
 {% block content %}
 <div class="container">
 
-	<h1>Elenco Ninja {% if perms.dojo.add_ninja %}<a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'dojo.views.ninja_add' %}"><span class="glyphicon glyphicon-plus" ></span></a>{% endif %}</h1>
+    <h1>Elenco Ninja {% if perms.dojo.add_ninja %}<a style="vertical-align: middle" class="btn btn-sm btn-primary"
+                                                     href="{% url 'dojo.views.ninja_add' %}"><span
+            class="glyphicon glyphicon-plus"></span></a>{% endif %}</h1>
 
-	{% if ninja_list %}
+    {% if ninja_list %}
 
-	<table class="table table-condesed table-striped tablesorter" id="ninjalist">
-		<thead>
-			<tr>
-				<th>Nome</th>
-				<th>Cognome</th>
-				<th>Età</th>
-				<th>Livello</th>
-				<th>Manleva</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for ninja in ninja_list %}
-			<tr>
-				<td>{{ ninja.name }}</td>
-				<td>{{ ninja.surname }}</td>
-				<td>{% if ninja.getAge > 0 %}{{ ninja.getAge }}{% endif %}</td>
-				<td>{% if ninja.level != None %}{{ ninja.level }}{% endif %}</td>
-				<td>{% if ninja.parentpermission %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
-				<td>
-					{% if perms.dojo.change_ninja %}<a href="{% url 'ninja_edit' pk=ninja.pk %}"><img src="{% static 'misc/edit.png'%}" /></a>{% endif %}
-					{% if perms.dojo.delete_ninja %}<a href="{% url 'ninja_delete' pk=ninja.pk %}"><img src="{% static 'misc/delete.png'%}" /></a>{% endif %}
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	<div class="pagination">
-		<span class="step-links"> {% if ninja_list.has_previous %} <a href="?page={{ ninja_list.previous_page_number }}"><</a> {% endif %} <span class="current"> Pagina {{ ninja_list.number }} di {{ ninja_list.paginator.num_pages }} </span> {% if ninja_list.has_next %} <a href="?page={{ ninja_list.next_page_number }}">></a> {% endif %} </span>
-	</div>
-	{% else %}
-	<p>
-		Nessun ninja disponibile
-	</p>
-	{% endif %}
+    <table class="table table-condesed table-striped tablesorter" id="ninjalist">
+        <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Età</th>
+            <!--<th>Livello</th>-->
+            <th>Eventi Partecipati</th>
+            <th>Manleva</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for ninja in ninja_list %}
+        <tr>
+            <td><a href="{% url 'ninja_detail' pk=ninja.pk %}">{{ ninja.name }}</a></td>
+            <td>{{ ninja.surname }}</td>
+            <td>{% if ninja.getAge > 0 %}{{ ninja.getAge }}{% endif %}</td>
+            <!--<td>{% if ninja.level != None %}{{ ninja.level }}{% endif %}</td>-->
+            <td>{% if ninja.event_set.count > 0 %}
+                <a href="#" data-toggle="modal" data-target=".bs-{{ ninja.pk }}-modal-sm">{{ ninja.event_set.count }}</a>
+                <div class="modal fade bs-{{ ninja.pk }}-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <span class="modal-title">Eventi partecipati</span>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-condesed table-striped">
+                                {% for event in ninja.event_set.all|dictsortreversed:"pub_date" %}
+                                    <tr>
+                                        <td><a href="{% url 'event_detail' pk=event.pk %}">{{ event.title }}</a></td>
+                                        <td>{{ event.pub_date }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal">Chiudi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </td>
+            <td>{% if ninja.parentpermission %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+            <td>
+                {% if perms.dojo.change_ninja %}<a href="{% url 'ninja_edit' pk=ninja.pk %}"><img
+                    src="{% static 'misc/edit.png'%}"/></a>{% endif %}
+                {% if perms.dojo.delete_ninja %}<a href="{% url 'ninja_delete' pk=ninja.pk %}"><img
+                    src="{% static 'misc/delete.png'%}"/></a>{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        <span class="step-links"> {% if ninja_list.has_previous %} <a
+                href="?page={{ ninja_list.previous_page_number }}"><</a> {% endif %} <span class="current"> Pagina {{ ninja_list.number }} di {{ ninja_list.paginator.num_pages }} </span> {% if ninja_list.has_next %} <a
+                href="?page={{ ninja_list.next_page_number }}">></a> {% endif %} </span>
+    </div>
+    {% else %}
+    <p>
+        Nessun ninja disponibile
+    </p>
+    {% endif %}
 </div>
 <!-- /.container -->
 

@@ -4,10 +4,11 @@
 		{% load staticfiles %}
 		{% load bootstrap3 %}
 
-		{% bootstrap_css %}
-		{% bootstrap_javascript %}
-		
 		<script src="{% static 'jquery/jquery-2.1.0.min.js' %}"></script>
+
+        {% bootstrap_css %}
+		{% bootstrap_javascript %}
+
 		<link rel="shortcut icon" href="{% static 'misc/favicon.ico' %}" />
 		<link rel="stylesheet" type="text/css" href="{% static 'misc/css/style.css' %}" />
 
@@ -36,7 +37,12 @@
 								<li {% block homeactive %}{% endblock %}>
 									<a href="{% url 'engine.views.home' %}"><span class="glyphicon glyphicon-home"></span> Home</a>
 								</li>
-								{% if perms.dojo.view_ninja %}
+								{% if perms.dojo.view_event %}
+								<li {% block eventactive %}{% endblock %}>
+									<a href="{% url 'dojo.views.event_list' %}"><span class="glyphicon glyphicon-calendar"></span> Eventi</a>
+								</li>
+								{% endif %}
+                                {% if perms.dojo.view_ninja %}
 								<li {% block ninjaactive %}{% endblock %}>
 									<a href="{% url 'dojo.views.ninja_list' %}"><span class="glyphicon glyphicon-list"></span> Ninja</a>
 								</li>

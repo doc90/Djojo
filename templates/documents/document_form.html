@@ -1,0 +1,19 @@
+{% load bootstrap3 %}
+
+<div class="container">
+
+	<h1>{{ documentformtitle }}</h1>
+	<form method="post" action="" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="row">
+			<div class="form-group">
+				<label class="col-md-2 control-label">Titolo</label>
+				<div class="col-md-2">{{ form.title }}</div>
+				<label class="col-md-2 control-label">File</label>
+				<div class="col-md-2">{{ form.uploadedfile }}</div>
+			</div>
+		</div>
+		<hr>
+		<button type="submit" class="btn btn-primary">{{ documentformbutton }}</button></form>
+</div>
+<!-- /.container -->

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block title %}Documenti{% endblock %}
+
+{% block documentactive %}class="active"{% endblock %}
+
+{% block additional_head %}
+<script src="{% static 'jquery/jquery.tablesorter.min.js' %}"></script>
+<script>
+	$(document).ready(function() {
+		$("#documentlist").tablesorter({
+			headers : {
+				1 : {
+					sorter : false
+				}
+			}
+		});
+	}); 
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Elenco Documenti {% if perms.documents.add_document %}<a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'documents:add' %}"><span class="glyphicon glyphicon-plus" ></span></a>{% endif %}</h1>
+
+	{% if document_list %}
+
+	<table class="table table-condesed table-striped tablesorter" id="documentlist">
+		<thead>
+			<tr>
+				<th>Titolo</th>
+                <th>Ultima modifica</th>
+				<th>Comandi</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for document in document_list %}
+			<tr>
+				<td>{{ document.title }}</td>
+                <td>{{ document.timestamp }}</td>
+				<td>
+                    <a href="{{ document.uploadedfile.url }}" target="_blank"><img src="{% static 'misc/edit.png'%}" /></a>
+					{% if perms.documents.change_document %}<a href="{% url 'documents:edit' pk=document.pk %}"><img src="{% static 'misc/edit.png'%}" /></a>{% endif %}
+					{% if perms.documents.delete_document %}<a href="{% url 'documents:delete' pk=document.pk %}"><img src="{% static 'misc/delete.png'%}" /></a>{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="pagination">
+		<span class="step-links">
+        {% if document_list.has_previous %}
+            <a href="?page={{ document_list.previous_page_number }}"><</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ document_list.number }} di {{ document_list.paginator.num_pages }}
+        </span>
+
+        {% if document_list.has_next %}
+            <a href="?page={{ document_list.next_page_number }}">></a>
+        {% endif %}
+    </span>
+	</div>
+	{% else %}
+	<p>
+		Nessun documento disponibile
+	</p>
+	{% endif %}
+</div>
+<!-- /.container -->
+
+{% endblock %}

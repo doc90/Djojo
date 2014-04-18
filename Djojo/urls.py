@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     
     url(r'^$','engine.views.home', name='home'),
     url(r'^dojo/', include('dojo.urls'), name='dojo'),
+    url(r'^documents/', include('documents.urls', namespace='documents'), name='documents'),
     
     url(r'^users/(?P<slug>\w+)/$', UserProfileDetailView.as_view(), name="profile"),
     
@@ -32,8 +33,13 @@ urlpatterns = patterns('',
     url(r'^users/register/$', RegistrationView.as_view(form_class=RegistrationFormUniqueEmail), name='registration_register'),
 )
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += patterns('',
+     (r'^static/(?P<path>.*)$', 'django.views.static.serve',
+    # {'document_root': settings.MEDIA_ROOT}),
+    #{'document_root': settings.MEDIA_ROOT, 'show_indexes': True},
+    {'document_root': settings.STATIC_ROOT, 'show_indexes': True})
+)
 
 handler403 = 'engine.views.custom403'
 

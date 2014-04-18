@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+{% block title %}Eventi{% endblock %}
+
+{% block eventactive %}class="active"{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h1>{{ event.pub_date }} - {{ event.title }}</h1>
+
+    <div class="row">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#dettagli" data-toggle="tab">Dettagli</a></li>
+            <li><a href="#ninja" data-toggle="tab">Ninja</a></li>
+            <li><a href="#mentor" data-toggle="tab">Mentor</a></li>
+
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active fade in" id="dettagli">
+                <div class="container" style="padding-top:10px">
+                    <!--<div class="row">
+                        <label class="col-md-2 control-label">Svolto il</label>
+                        <div class="col-md-2">{{ event.pub_date }}</div>
+                        <label class="col-md-2 control-label">Presso</label>
+                        <div class="col-md-2">{{ event.location }}</div>
+
+                    </div>
+                    <hr>-->
+                    <div class="row">
+                        <label class="col-md-2 control-label">Attività svolte</label>
+
+                        <div class="col-md-6">{{ event.activity|safe|linebreaksbr }}</div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <label class="col-md-2 control-label">Note</label>
+
+                        <div class="col-md-6">{{ event.notes }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="ninja">
+                <div class="container" style="padding-top:10px">
+                    {% if event.participants.count > 0 %}
+
+                    <table class="table table-condesed table-striped tablesorter" id="ninjalist">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Età</th>
+                            <!--<th>Livello</th>-->
+                            <th>Eventi Partecipati</th>
+                            <th>Manleva</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for ninja in event.participants.all %}
+                        <tr>
+                            <td><a href="{% url 'ninja_detail' pk=ninja.pk %}">{{ ninja.name }}</a></td>
+                            <td>{{ ninja.surname }}</td>
+                            <td>{% if ninja.getAge > 0 %}{{ ninja.getAge }}{% endif %}</td>
+                            <!--<td>{% if ninja.level != None %}{{ ninja.level }}{% endif %}</td>-->
+                            <td>{% if ninja.event_set.count > 0 %}
+                                <a href="#" data-toggle="modal" data-target=".bs-{{ ninja.pk }}-modal-sm">
+                                    {{ ninja.event_set.count }}</a>
+
+                                <div class="modal fade bs-{{ ninja.pk }}-modal-sm" tabindex="-1" role="dialog"
+                                     aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <span class="modal-title">Eventi partecipati</span>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-condesed table-striped">
+                                                    {% for event in ninja.event_set.all|dictsortreversed:"pub_date" %}
+                                                    <tr>
+                                                        <td><a href="{% url 'event_detail' pk=event.pk %}">
+                                                            {{ event.title }}</a></td>
+                                                        <td>{{ event.pub_date }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary btn-xs"
+                                                        data-dismiss="modal">
+                                                    Chiudi
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td>{% if ninja.parentpermission %}<span class="glyphicon glyphicon-ok"></span>{% endif %}
+                            </td>
+                            <td>
+                                {% if perms.dojo.change_ninja %}<a href="{% url 'ninja_edit' pk=ninja.pk %}"><img
+                                    src="{% static 'misc/edit.png'%}"/></a>{% endif %}
+                                {% if perms.dojo.delete_ninja %}<a href="{% url 'ninja_delete' pk=ninja.pk %}"><img
+                                    src="{% static 'misc/delete.png'%}"/></a>{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    Nessun ninja presente
+                    {% endif %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="mentor">
+                <div class="container" style="padding-top:10px">
+                    {% if event.mentors.count > 0 %}
+                    <table class="table table-condesed table-striped tablesorter" id="mentorlist">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Cognome</th>
+                            <th>Email</th>
+                            <th>Cellulare</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for mentor in event.mentors.all %}
+                        <tr>
+                            <td>{{ mentor.name }}</td>
+                            <td>{{ mentor.surname }}</td>
+                            <td>{{ mentor.email }}</td>
+                            <td>{{ mentor.cellphone }}</td>
+                            <td>
+                                {% if perms.dojo.change_mentor %}<a href="{% url 'mentor_edit' pk=mentor.pk %}"><img
+                                    src="{% static 'misc/edit.png'%}"/></a>{% endif %}
+                                {% if perms.dojo.delete_mentor %}<a href="{% url 'mentor_delete' pk=mentor.pk %}"><img
+                                    src="{% static 'misc/delete.png'%}"/></a>{% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    Nessun Mentor presente
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container -->
+
+{% endblock %}

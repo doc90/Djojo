@@ -8,7 +8,7 @@
 		<div class="col-sm-offset-2 col-sm-10">
 			<h1>Registrati</h1>
 			<p>
-				Already registered? <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
+				Già regitrato? <a href="{% url 'django.contrib.auth.views.login' %}">Login</a>
 			</p>
 		</div>
 	</div>
@@ -17,9 +17,7 @@
 		{% bootstrap_form form layout='horizontal' %}
 		{% buttons %}
 		<div class="col-sm-offset-2 col-sm-10">
-			<button type="submit" class="btn btn-primary">
-				{% bootstrap_icon "star" %} Sign Me Up!
-			</button>
+			<button type="submit" class="btn btn-primary">Registrati</button>
 		</div>
 		{% endbuttons %}
 	</form>

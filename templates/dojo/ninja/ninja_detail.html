@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}Ninja{% endblock %}
+
+{% block ninjaactive %}class="active"{% endblock %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+	<h1>{{ ninja.name }} {{ ninja.surname }}</h1>
+    </div>
+    <div class=row">
+        Data di nascita {{ ninja.birthday }} ({{ ninja.getAge }} anni)
+    </div>
+
+    <div class=row">
+        Note:
+        <div>{{ ninja.notes }}</div>
+    </div>
+
+
+</div>
+<!-- /.container -->
+
+{% endblock %}

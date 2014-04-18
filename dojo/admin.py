@@ -14,19 +14,7 @@ class NinjaAdmin(admin.ModelAdmin):
 
 admin.site.register(Ninja, NinjaAdmin)
 
-class EventAdmin(admin.ModelAdmin):
-    fieldsets = [
-        ('Dettagli evento', {'fields':['pub_date', 'title', 'partecipants', 'notes']}),
-    ]
-    
-    # inlines = ['pub_date','title']
-    filter_horizontal = ['partecipants']
-    list_display = ('pub_date', 'title')
-    list_filter = ['pub_date']
-    search_fields = ['title']
-
-admin.site.register(Event, EventAdmin)
-
+admin.site.register(Event)
 
 admin.site.register(Level)
 

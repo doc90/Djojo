@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block title %}Eventi{% endblock %}
+
+{% block eventactive %}class="active"{% endblock %}
+
+{% block additional_head %}
+<script src="{% static 'jquery/jquery.tablesorter.min.js' %}"></script>
+<script>
+	$(document).ready(function() {
+		$("#eventlist").tablesorter({
+			sortList : [[1, 0]],
+			headers : {
+				2 : {
+					sorter : false
+				},
+				3 : {
+					sorter : false
+				},
+				4 : {
+					sorter : false
+				}
+			}
+		});
+	}); 
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Elenco Eventi {% if perms.dojo.add_event %}<a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'dojo.views.event_add' %}"><span class="glyphicon glyphicon-plus" ></span></a>{% endif %}</h1>
+
+	{% if event_list %}
+
+	<table class="table table-condesed table-striped tablesorter" id="eventlist">
+		<thead>
+			<tr>
+				<th>Titolo</th>
+				<th>Data</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for event in event_list %}
+			<tr>
+				<td><a href="{% url 'event_detail' pk=event.pk %}">{{ event.title }}</a></td>
+				<td>{{ event.pub_date }}</td>
+				<td>
+					{% if perms.dojo.change_event %}<a href="{% url 'event_edit' pk=event.pk %}"><img src="{% static 'misc/edit.png'%}" /></a>{% endif %}
+					{% if perms.dojo.delete_event %}<a href="{% url 'event_delete' pk=event.pk %}"><img src="{% static 'misc/delete.png'%}" /></a>{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="pagination">
+		<span class="step-links">
+        {% if event_list.has_previous %}
+            <a href="?page={{ event_list.previous_page_number }}"><</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ event_list.number }} di {{ event_list.paginator.num_pages }}
+        </span>
+
+        {% if event_list.has_next %}
+            <a href="?page={{ event_list.next_page_number }}">></a>
+        {% endif %}
+    </span>
+	</div>
+	{% else %}
+	<p>
+		Nessun mentor disponibile
+	</p>
+	{% endif %}
+</div>
+<!-- /.container -->
+
+{% endblock %}

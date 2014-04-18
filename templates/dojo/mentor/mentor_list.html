@@ -9,7 +9,7 @@
 <script src="{% static 'jquery/jquery.tablesorter.min.js' %}"></script>
 <script>
 	$(document).ready(function() {
-		$("#ninjalist").tablesorter({
+		$("#mentorlist").tablesorter({
 			sortList : [[1, 0]],
 			headers : {
 				2 : {
@@ -34,7 +34,7 @@
 
 	{% if mentor_list %}
 
-	<table class="table table-condesed table-striped tablesorter" id="ninjalist">
+	<table class="table table-condesed table-striped tablesorter" id="mentorlist">
 		<thead>
 			<tr>
 				<th>Nome</th>
@@ -69,7 +69,7 @@
             Pagina {{ mentor_list.number }} di {{ mentor_list.paginator.num_pages }}
         </span>
 
-        {% if ninja_list.has_next %}
+        {% if mentor_list.has_next %}
             <a href="?page={{ mentor_list.next_page_number }}">></a>
         {% endif %}
     </span>

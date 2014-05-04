@@ -1,17 +1,43 @@
 {% load bootstrap3 %}
 {% load staticfiles %}
-
 <script src="{% static 'jquery-ui/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
 <link rel="stylesheet" href="{% static 'jquery-ui/css/redmond/jquery-ui-1.10.4.custom.min.css' %}" />
+<script src="{% static 'select2/select2.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'select2/select2.css' %}"/>
 <script>
+    $(document).ready(function () {
+        $('#id_participants, #id_mentors').select2({ width: '100%' });
+    });
+
 	$(function() {
 		$("#id_pub_date").datepicker({
 			changeMonth : true,
 			changeYear : true,
-			yearRange: "1984:2014",
 			dateFormat: "dd/mm/yy"
 		});
 	});
+
+	$("#checkNinja").click(function(){
+	    alert("!");
+        if($("#checkNinja").is(':checked') ){
+            $("#id_participants > option").prop("selected","selected");
+            $("#id_participants").trigger("change");
+        }else{
+            $("#id_participants > option").removeAttr("selected");
+            $("#id_participants").trigger("change");
+        }
+    });
+
+    $("#checkMentor").click(function(){
+        if($("#checkMentor").is(':checked') ){
+            $("#id_mentors > option").prop("selected","selected");
+            $("#id_mentors").trigger("change");
+        }else{
+            $("#id_mentors > option").removeAttr("selected");
+             $("#id_mentors").trigger("change");
+         }
+    });
+
 </script>
 <style>
 div.ui-datepicker {
@@ -47,15 +73,26 @@ div.ui-datepicker {
 		<div class="row">
 			<div class="form-group">
 				<label class="col-md-2 control-label">Partecipanti</label>
-				<div class="col-md-2">{{ form.participants }}</div>
+				<div class="col-md-6">{{ form.participants }}</div>
 			</div>
 		</div>
         <div class="row">
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-2"><input type="checkbox" id="checkNinja">Seleziona tutti</div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
 			<div class="form-group">
 				<label class="col-md-2 control-label">Mentor</label>
-				<div class="col-md-2">{{ form.mentors }}</div>
+				<div class="col-md-6">{{ form.mentors }}</div>
 			</div>
 		</div>
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-6 col-md-offset-2"><input type="checkbox" id="checkMentor">Seleziona tutti</div>
+            </div>
+        </div>
 		<hr>
 		<div class="row">
 			<div class="form-group">

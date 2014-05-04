@@ -1,4 +1,5 @@
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm, Textarea, ModelMultipleChoiceField
+from django.forms.widgets import CheckboxSelectMultiple
 from .models import Ninja, Mentor, Event
 
 class NinjaForm(ModelForm):
@@ -24,6 +25,6 @@ class EventForm(ModelForm):
         model = Event
         fields = ['title', 'pub_date', 'participants', 'mentors', 'location', 'notes', 'activity']
         widgets = {
-            'notes': Textarea(attrs={'class': 'form-control', 'rows':'3'}),
-            'activity': Textarea(attrs={'class': 'form-control', 'rows':'5'}),
+            'notes': Textarea(attrs={'class': 'form-control', 'rows': '3'}),
+            'activity': Textarea(attrs={'class': 'form-control', 'rows': '5'}),
         }

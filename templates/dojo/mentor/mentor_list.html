@@ -41,7 +41,8 @@
 				<th>Cognome</th>
 				<th>Email</th>
 				<th>Cellulare</th>
-				<th></th>
+                <th>Eventi Partecipati</th>
+                <th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,6 +52,36 @@
 				<td>{{ mentor.surname }}</td>
 				<td>{{ mentor.email }}</td>
 				<td>{{ mentor.cellphone }}</td>
+                <td>{% if mentor.event_set.count > 0 %}
+                    <a href="#" data-toggle="modal" data-target=".bs-{{ mentor.pk }}-modal-sm">
+                        {{ mentor.event_set.count }}</a>
+
+                    <div class="modal fade bs-{{ mentor.pk }}-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <span class="modal-title">Eventi partecipati</span>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-condesed table-striped">
+                                        {% for event in mentor.event_set.all|dictsortreversed:"pub_date" %}
+                                        <tr>
+                                            <td><a href="{% url 'event_detail' pk=event.pk %}">{{ event.title }}</a>
+                                            </td>
+                                            <td>{{ event.pub_date }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary btn-xs" data-dismiss="modal">Chiudi
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </td>
 				<td>
 					{% if perms.dojo.change_mentor %}<a href="{% url 'mentor_edit' pk=mentor.pk %}"><img src="{% static 'misc/edit.png'%}" /></a>{% endif %}
 					{% if perms.dojo.delete_mentor %}<a href="{% url 'mentor_delete' pk=mentor.pk %}"><img src="{% static 'misc/delete.png'%}" /></a>{% endif %}

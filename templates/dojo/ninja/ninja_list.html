@@ -44,8 +44,8 @@
             <th>Cognome</th>
             <th>Età</th>
             <!--<th>Livello</th>-->
-            <th>Eventi Partecipati</th>
             <th>Manleva</th>
+            <th>Eventi Partecipati</th>
             <th></th>
         </tr>
         </thead>
@@ -56,6 +56,7 @@
             <td>{{ ninja.surname }}</td>
             <td>{% if ninja.getAge > 0 %}{{ ninja.getAge }}{% endif %}</td>
             <!--<td>{% if ninja.level != None %}{{ ninja.level }}{% endif %}</td>-->
+            <td>{% if ninja.parentpermission %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
             <td>{% if ninja.event_set.count > 0 %}
                 <a href="#" data-toggle="modal" data-target=".bs-{{ ninja.pk }}-modal-sm">{{ ninja.event_set.count }}</a>
                 <div class="modal fade bs-{{ ninja.pk }}-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
@@ -82,7 +83,6 @@
                 </div>
                 {% endif %}
             </td>
-            <td>{% if ninja.parentpermission %}<span class="glyphicon glyphicon-ok"></span>{% endif %}</td>
             <td>
                 {% if perms.dojo.change_ninja %}<a href="{% url 'ninja_edit' pk=ninja.pk %}"><img
                     src="{% static 'misc/edit.png'%}"/></a>{% endif %}

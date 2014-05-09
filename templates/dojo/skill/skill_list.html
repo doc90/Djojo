@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% block title %}Skill{% endblock %}
+
+{% block skillactive %}class="active"{% endblock %}
+
+{% block additional_head %}
+<script src="{% static 'jquery/jquery.tablesorter.min.js' %}"></script>
+<script>
+	$(document).ready(function() {
+		$("#skilllist").tablesorter({
+			sortList : [[0]],
+			headers : {
+				1 : {
+					sorter : false
+				},
+				2 : {
+					sorter : false
+				}
+			}
+		});
+	}); 
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Elenco Skill {% if perms.dojo.add_skill %}<a style="vertical-align: middle" class="btn btn-sm btn-primary" href="{% url 'dojo.views.skill_add' %}"><span class="glyphicon glyphicon-plus" ></span></a>{% endif %}</h1>
+
+	{% if skill_list %}
+
+	<table class="table table-condesed table-striped tablesorter" id="skilllist">
+		<thead>
+			<tr>
+				<th>Titolo</th>
+				<th>Colore</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for skill in skill_list %}
+			<tr>
+				<td>{{ skill.title }}</td>
+				<td><div style="height:20px;width:100px;background-color:{{ skill.color }}"></div></td>
+				<td>
+					{% if perms.dojo.change_event %}<a href="{% url 'skill_edit' pk=skill.pk %}"><img src="{% static 'misc/edit.png'%}" /></a>{% endif %}
+					{% if perms.dojo.delete_event %}<a href="{% url 'skill_delete' pk=skill.pk %}"><img src="{% static 'misc/delete.png'%}" /></a>{% endif %}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<div class="pagination">
+		<span class="step-links">
+        {% if skill_list.has_previous %}
+            <a href="?page={{ skill_list.previous_page_number }}"><</a>
+        {% endif %}
+
+        <span class="current">
+            Pagina {{ skill_list.number }} di {{ skill_list.paginator.num_pages }}
+        </span>
+
+        {% if skill_list.has_next %}
+            <a href="?page={{ skill_list.next_page_number }}">></a>
+        {% endif %}
+    </span>
+	</div>
+	{% else %}
+	<p>
+		Nessuna skill disponibile
+	</p>
+	{% endif %}
+</div>
+<!-- /.container -->
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load bootstrap3 %}
+
+<div class="container">
+
+	<h1>{{ skillformtitle }}</h1>
+	<form method="post" action="">
+		{% csrf_token %}
+		<div class="row">
+			<div class="form-group">
+				<label class="col-md-2 control-label">Titolo *</label>
+				<div class="col-md-2">{{ form.title }}</div>
+				<label class="col-md-2 control-label">Colore</label>
+				<div class="col-md-2">{{ form.color }}</div>
+			</div>
+		</div>
+        <hr>
+		<div class="row">
+			<div class="form-group">
+				<label class="col-md-2 control-label">Note</label>
+				<div class="col-md-6">{{ form.notes }}</div>
+			</div>
+		</div>
+		<hr>
+		<button type="submit" class="btn btn-primary">{{ skillformbutton }}</button></form>
+</div>
+<!-- /.container -->

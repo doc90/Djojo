@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% block title %}Skill{% endblock %}
+
+{% block skillactive %}class="active"{% endblock %}
+
+{% block content %}
+<div class="container">
+
+	<h1>Elimina Skill</h1>
+	Sicuro di voler eliminare questa skill?
+	<form method="post">
+		{% csrf_token %}
+		<button type="submit" class="btn btn-danger">
+			Elimina
+		</button>
+	</form>
+</div>
+<!-- /.container -->
+
+{% endblock %}

@@ -18,8 +18,7 @@
 	});
 
 	$("#checkNinja").click(function(){
-	    alert("!");
-        if($("#checkNinja").is(':checked') ){
+	    if($("#checkNinja").is(':checked') ){
             $("#id_participants > option").prop("selected","selected");
             $("#id_participants").trigger("change");
         }else{

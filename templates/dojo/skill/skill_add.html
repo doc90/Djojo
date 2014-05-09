@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Skill{% endblock %}
+
+{% block skillactive %}class="active"{% endblock %}
+        
+{% block additional_head %}
+{% load staticfiles %}
+<script src="{% static 'colpick/js/colpick.js' %}"></script>
+<link rel="stylesheet" href="{% static 'colpick/css/colpick.css' %}" />
+<script>
+$(function(){
+    $('#id_color').colpick({
+        layout:'hex',
+        submit:0,
+        onChange:function(hsb,hex,rgb,el,bySetColor) {
+            if(!bySetColor) $(el).val('#'+ hex);
+        }
+    }).keyup(function(){
+        $(this).colpickSetColor(this.value);
+    });
+});
+</script>
+
+{% endblock %}    
+
+{% block content %}
+
+{% include "dojo/skill/skill_form.html" with skillformtitle="Aggiungi Skill" skillformbutton="Aggiungi" %}
+
+{% endblock %}

@@ -18,19 +18,29 @@ class Level(models.Model):
     thumbnail.allow_tags = True
 
 
+class Skill(models.Model):
+    title = models.CharField('Titolo', max_length=200)
+    color = models.CharField('Colore', max_length=10, blank=True)
+    notes = HTMLField('Note', blank=True)
+
+    def __unicode__(self):
+        return self.title
+
+
 class Ninja(models.Model):
     name = models.CharField('Nome', max_length=50)
     surname = models.CharField('Cognome', max_length=50)
     birthday = models.DateField('Data di nascita', blank=True, null=True)
     photo = models.ImageField('Foto', upload_to='./photos', blank=True)
-    level = models.ForeignKey(Level, null=True, blank=True)
+    skills = models.ManyToManyField(Skill, blank=True)
     cellphone = models.CharField('Cellulare', max_length=15, blank=True)
     email = models.EmailField('Email', blank=True)
-    parentpermission = models.BooleanField('Manleva', default=False)
-    parentname = models.CharField('Nome Genitore', max_length=50, blank=True)
-    parentsurname = models.CharField('Cognome Genitore', max_length=50, blank=True)
-    parentemail = models.EmailField('Email', blank=True)
-    parentcellphone = models.CharField('Cell Genitore', max_length=15, blank=True)
+    tutorpermission = models.BooleanField('Manleva', default=False)
+    photopermission = models.BooleanField('Permesso Foto', default=False)
+    tutorname = models.CharField('Nome Accompagnatore', max_length=50, blank=True)
+    tutorsurname = models.CharField('Cognome Accompagnatore', max_length=50, blank=True)
+    tutoremail = models.EmailField('Email', blank=True)
+    tutorcellphone = models.CharField('Cell Accompagnatore', max_length=15, blank=True)
     notes = HTMLField('Note', blank=True)   
     slug = models.CharField(max_length=200)
     

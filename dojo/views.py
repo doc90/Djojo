@@ -4,10 +4,10 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import permission_required
 from django.views.generic.edit import DeleteView
 from django.views import generic
-from .forms import NinjaForm, MentorForm, EventForm
+from .forms import NinjaForm, MentorForm, EventForm, SkillForm
 from django.http import HttpResponseRedirect
 
-from .models import Ninja, Event, Mentor
+from .models import Ninja, Event, Mentor, Skill
 
 @permission_required('dojo.view_ninja', raise_exception=True)
 def ninja_list(request):
@@ -193,3 +193,58 @@ class Event_delete(DeleteView):
 class Event_detail(generic.DetailView):
     model = Event
     template_name = 'dojo/event/event_detail.html'
+
+
+@permission_required('dojo.view_skill', raise_exception=True)
+def skill_list(request):
+
+    skill_list = Skill.objects.order_by('title')
+    paginator = Paginator(skill_list, 25)
+
+    page = request.GET.get('page')
+    try:
+        skill_list = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        skill_list = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        skill_list = paginator.page(paginator.num_pages)
+
+    return render_to_response('dojo/skill/skill_list.html', {"skill_list": skill_list}, context_instance=RequestContext(request))
+
+
+@permission_required('dojo.add_skill', raise_exception=True)
+def skill_add(request):
+    if request.method == 'POST':
+        form = SkillForm(data=request.POST)
+
+        if form.is_valid():
+
+            form.save()
+            return HttpResponseRedirect("/dojo/skill/")
+    else:
+        form = SkillForm()
+    return render_to_response("dojo/skill/skill_add.html", {'form' : form }, context_instance=RequestContext(request))
+
+
+@permission_required('dojo.change_skill', raise_exception=True)
+def skill_edit(request, pk):
+    instance = get_object_or_404(Skill, pk=pk)
+    if request.method == "POST":
+        form = SkillForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/dojo/skill/")
+    else:
+        form = SkillForm(instance=instance)
+    return render_to_response("dojo/skill/skill_edit.html", {'form' : form }, context_instance=RequestContext(request))
+
+
+class Skill_delete(DeleteView):
+    model = Skill
+    success_url = '/dojo/skill/'
+    template_name = 'dojo/skill/skill_delete.html'
+
+    def dispatch(self, *args, **kwargs):
+        return super(Skill_delete, self).dispatch(*args, **kwargs)

@@ -22,4 +22,9 @@ urlpatterns = patterns('',
     url(r'^event/(?P<pk>\d+)/delete/$', permission_required('dojo.delete_event', raise_exception=True)(views.Event_delete.as_view()), name="event_delete"),
     url(r'^event/(?P<pk>\d+)/$', permission_required('dojo.view_event', raise_exception=True)(views.Event_detail.as_view()), name='event_detail'),
 
+    url(r'^skill/$',views.skill_list, name='skill_list'),
+    url(r'^skill/new/$', views.skill_add, name='skill_add'),
+    url(r'^skill/(?P<pk>\d+)/edit/$', views.skill_edit, name="skill_edit"),
+    url(r'^skill/(?P<pk>\d+)/delete/$', permission_required('dojo.delete_skill', raise_exception=True)(views.Skill_delete.as_view()), name="skill_delete"),
+
 )

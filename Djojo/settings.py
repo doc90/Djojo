@@ -38,10 +38,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # 'django.contrib.flatpages',
     'tinymce',
-    'south',
+    #'south',
     'dojo',
     'engine',
-    'documents',
+    #'documents',
     'registration',
     'bootstrap3',
 )

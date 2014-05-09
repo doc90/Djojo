@@ -52,6 +52,11 @@
 									<a href="{% url 'dojo.views.mentor_list' %}"><span class="glyphicon glyphicon-tower"></span> Mentor</a>
 								</li>
 								{% endif %}
+                                {% if perms.dojo.view_skill %}
+								<li {% block skillactive %}{% endblock %}>
+									<a href="{% url 'dojo.views.skill_list' %}"><span class="glyphicon glyphicon-star"></span> Skill</a>
+								</li>
+								{% endif %}
 							</ul>
 							{% if user.is_authenticated %}
 							<ul class="nav navbar-nav navbar-right">
